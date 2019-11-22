@@ -18,7 +18,9 @@ function activate(context) {
     });
     context.subscriptions.push(ps);
     ps.addCommand('[Console]::OutputEncoding = [Text.Encoding]::UTF8');
-    ps.addCommand(`Add-Type -Path '${path}'`);
+    ps.addCommand('$cp = New-Object System.CodeDom.Compiler.CompilerParameters(\'System.dll\')');
+    ps.addCommand('$cp.CompilerOptions = \'/unsafe\'');
+    ps.addCommand(`Add-Type -Path '${path}' -CompilerParameters $cp`);
 
     function setAlpha(alpha) {
         if (alpha < 1) {
